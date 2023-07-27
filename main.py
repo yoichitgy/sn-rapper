@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+import random
 from typing import Any
 
 import openai
@@ -120,19 +121,25 @@ def is_list_of_lists_of_str(data: Any) -> bool:
 
 
 def freestyle(subject: str) -> tuple[str, str]:
-    voices = ["jsxi", "relikk"]
+    voices = ["jsxi", "relikk", "b-la-b", "tag", "b-la-b-controllable"]
     backing_tracks = [
         ("2c3adf4e-c2b9-4419-94ee-f2f61446d07f", 105),  # Nike - Futile
         ("5fff1ec6-8736-4992-a842-8b78d37b8a8a", 90),  # Downtown - Barré
+        ("1e4c6e5a-2782-4a7c-aa98-2a6c48904de5", 90),  # Prancer - Cushy
+        ("6dcfd55c-c549-408d-8817-6f21efed407b", 90),  # Winners Circle - BOGER
+        ("84a34767-12c0-4dc0-aa64-c292ac7d13c9", 144),  # HIGH - SANA
+        ("24a7422c-9db7-495a-84bd-e1b70a42bc5a", 100),  # Mr.Krabs - YukiBeats
     ]
 
-    backing_track = backing_tracks[0][0]
-    bpm = backing_tracks[0][1]
+    voice = random.choice(voices)
+    backing_track = random.choice(backing_tracks)
+    track = backing_track[0]
+    bpm = backing_track[1]
     payload = {
         "subject": subject,
         "bpm": bpm,
-        "voice": voices[0],
-        "backing_track": backing_track,
+        "voice": voice,
+        "backing_track": track,
     }
     headers = {"accept": "application/json", "content-type": "application/json"}
     url = "https://api.uberduck.ai/tts/freestyle"
