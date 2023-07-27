@@ -22,7 +22,7 @@ if not UBERDUCK_API_KEY or not UBERDUCK_SECRET_KEY:
 UBERDUCK_AUTH = (UBERDUCK_API_KEY, UBERDUCK_SECRET_KEY)
 
 
-def lyrics() -> None:
+def freestyle() -> None:
     lyrics = [
         [
             "rap cat, hell make you clap",
@@ -32,14 +32,20 @@ def lyrics() -> None:
         ]
     ]
     voices = ["jsxi", "relikk"]
+    backing_tracks = [
+        ("2c3adf4e-c2b9-4419-94ee-f2f61446d07f", 105),  # Nike - Futile
+        ("5fff1ec6-8736-4992-a842-8b78d37b8a8a", 90),  # Downtown - Barré
+    ]
 
-    bpm = 144
+    backing_track = backing_tracks[0][0]
+    bpm = backing_tracks[0][1]
     lines = len(lyrics[0])
     payload = {
         "lyrics": lyrics,
         "lines": lines,
         "bpm": bpm,
         "voice": voices[0],
+        "backing_track": backing_track,
     }
     headers = {"accept": "application/json", "content-type": "application/json"}
     url = "https://api.uberduck.ai/tts/freestyle"
@@ -62,5 +68,12 @@ def voices() -> None:
     print(response.text)
 
 
+def backing_tracks() -> None:
+    url = "https://api.uberduck.ai/reference-audio/backing-tracks"
+    headers = {"accept": "application/json"}
+    response = requests.get(url, headers=headers)
+    print(response.text)
+
+
 if __name__ == "__main__":
-    lyrics()
+    freestyle()
