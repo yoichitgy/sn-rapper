@@ -58,11 +58,12 @@ def handle_reaction(event, say):
 
     say(text="composing a rap song, yo! ...", thread_ts=ts)
 
-    lyrics = make_lyrics(message)
-    logger.info(f"lyrics: {lyrics}")
+    # lyrics = make_lyrics(message)
+    # logger.info(f"lyrics: {lyrics}")
 
-    url = freestyle(lyrics)
+    url, lyrics = freestyle(message)
     logger.info(f"url: {url}")
+    logger.info(f"lyrics: {lyrics}")
 
     filename = "rap.wav"
     response = requests.get(url)
@@ -75,11 +76,14 @@ def handle_reaction(event, say):
         thread_ts=ts,
     )
 
-    lyrics_text = "\n\n".join([" ".join(line) for line in lyrics])
-    say(text=f"lyrics, yo: {lyrics_text}", thread_ts=ts)
+    say(text=f"lyrics, yo: {lyrics}", thread_ts=ts)
 
 
 def make_lyrics(text: str) -> list[list[str]]:
+    """
+    OBSOLETE: Use lyrics generation of uberduck.ai
+    """
+
     model = "gpt-4"  # "gpt-3.5-turbo" or "gpt-4"
     system_prompt = (
         "Output is an array of arrays of strings in JSON format. "
@@ -115,7 +119,7 @@ def is_list_of_lists_of_str(data: Any) -> bool:
     return True
 
 
-def freestyle(lyrics: list[list[str]]) -> str:
+def freestyle(subject: str) -> tuple[str, str]:
     voices = ["jsxi", "relikk"]
     backing_tracks = [
         ("2c3adf4e-c2b9-4419-94ee-f2f61446d07f", 105),  # Nike - Futile
@@ -124,10 +128,8 @@ def freestyle(lyrics: list[list[str]]) -> str:
 
     backing_track = backing_tracks[0][0]
     bpm = backing_tracks[0][1]
-    lines = sum(len(sublist) for sublist in lyrics)
     payload = {
-        "lyrics": lyrics,
-        "lines": lines,
+        "subject": subject,
         "bpm": bpm,
         "voice": voices[0],
         "backing_track": backing_track,
@@ -142,7 +144,11 @@ def freestyle(lyrics: list[list[str]]) -> str:
     )
     freestyle = response.json()
     logger.debug(freestyle)
-    return str(freestyle["mix_url"])
+
+    url = str(freestyle["mix_url"])
+    text_lines = [line["text"] for line in freestyle["lines"]]
+    lyrics = "\n\n".join(text_lines)
+    return url, lyrics
 
 
 if __name__ == "__main__":
