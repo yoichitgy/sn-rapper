@@ -132,7 +132,11 @@ def freestyle(subject: str) -> tuple[str, str]:
     ]
 
     voice = random.choice(voices)
+    logger.info(f"voice: {voice}")
+
     backing_track = random.choice(backing_tracks)
+    logger.info(f"backing_track: {backing_track}")
+
     track = backing_track[0]
     bpm = backing_track[1]
     payload = {
