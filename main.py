@@ -121,7 +121,7 @@ def is_list_of_lists_of_str(data: Any) -> bool:
 
 
 def freestyle(subject: str) -> tuple[str, str]:
-    voices = ["jsxi", "relikk", "b-la-b", "tag", "b-la-b-controllable"]
+    voices = ["jsxi", "relikk", "b-la-b", "tag"]
     backing_tracks = [
         ("2c3adf4e-c2b9-4419-94ee-f2f61446d07f", 105),  # Nike - Futile
         ("5fff1ec6-8736-4992-a842-8b78d37b8a8a", 90),  # Downtown - Barré
