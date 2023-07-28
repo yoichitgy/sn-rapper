@@ -4,9 +4,7 @@ Looking for a fun feature on Slack? Check out sn-rapper! It has the ability to t
 
 ![sn-rapper screenshot](docs/media/screenshot.png)
 
-<video controls="" autoplay="" name="media">
-  <source src="docs/media/rap.mp3" type="audio/mpeg">
-</video>
+[A sample audio here.](./docs/media/rap.mp3)
 
 # Preparation
 
