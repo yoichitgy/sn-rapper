@@ -67,3 +67,7 @@ If you cannot receive events from Slack, try another network or wi-fi. If your n
 # License
 
 The MIT License
+
+# Acknowledgement
+
+This program was made at a hackathon event at SmartNews.
