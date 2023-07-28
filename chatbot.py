@@ -1,3 +1,7 @@
+"""
+This module is just used to try out the Slack API and test the bot.
+"""
+
 import logging
 import os
 
