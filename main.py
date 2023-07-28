@@ -1,6 +1,7 @@
 import logging
 import os
 import random
+from urllib.parse import urlparse
 
 import requests
 from slack_bolt import App
@@ -55,7 +56,9 @@ def handle_reaction(event, say):
     logger.info(f"url: {url}")
     logger.info(f"lyrics: {lyrics}")
 
-    filename = "rap.wav"
+    path = os.path.split(urlparse(url).path)
+    filename = path[-1]
+
     response = requests.get(url)
     with open(filename, "wb") as f:
         f.write(response.content)
