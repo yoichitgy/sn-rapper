@@ -1,10 +1,7 @@
-import json
 import logging
 import os
 import random
-from typing import Any
 
-import openai
 import requests
 from slack_bolt import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
@@ -34,11 +31,6 @@ if not SLACK_BOT_TOKEN or not SLACK_APP_TOKEN:
     )
 app = App(token=SLACK_BOT_TOKEN)
 
-OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
-if not OPENAI_API_KEY:
-    raise ValueError("Please set OPENAI_API_KEY environment variable")
-openai.api_key = OPENAI_API_KEY
-
 
 @app.event("reaction_added")
 def handle_reaction(event, say):
@@ -59,9 +51,6 @@ def handle_reaction(event, say):
 
     say(text="composing a rap song, yo! ...", thread_ts=ts)
 
-    # lyrics = make_lyrics(message)
-    # logger.info(f"lyrics: {lyrics}")
-
     url, lyrics = freestyle(message)
     logger.info(f"url: {url}")
     logger.info(f"lyrics: {lyrics}")
@@ -78,46 +67,6 @@ def handle_reaction(event, say):
     )
 
     say(text=f"lyrics, yo: {lyrics}", thread_ts=ts)
-
-
-def make_lyrics(text: str) -> list[list[str]]:
-    """
-    OBSOLETE: Use lyrics generation of uberduck.ai
-    """
-
-    model = "gpt-4"  # "gpt-3.5-turbo" or "gpt-4"
-    system_prompt = (
-        "Output is an array of arrays of strings in JSON format. "
-        "Lines of verse, chorus, and outro are packed in an internal array. "
-    )
-    prompt = f"Convert the message to a rap song. \n\n```{text}```"
-
-    response = openai.ChatCompletion.create(
-        model=model,
-        messages=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": prompt},
-        ],
-    )
-    json_text = response["choices"][0]["message"]["content"]
-    list_of_lines = json.loads(json_text)
-    if not is_list_of_lists_of_str(list_of_lines):
-        raise ValueError(f"Unexpected format: {list_of_lines}")
-
-    return list_of_lines
-
-
-def is_list_of_lists_of_str(data: Any) -> bool:
-    if not isinstance(data, list):
-        return False
-
-    for sublist in data:
-        if not isinstance(sublist, list):
-            return False
-        if not all(isinstance(item, str) for item in sublist):
-            return False
-
-    return True
 
 
 def freestyle(subject: str) -> tuple[str, str]:

@@ -4,7 +4,6 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-openai = "*"
 requests = "*"
 slack-bolt = "*"
 
@@ -17,4 +16,3 @@ python_full_version = "3.11.4"
 [scripts]
 start = "python main.py"
 chatbot = "python chatbot.py"
-openai = "python my_openai.py"
