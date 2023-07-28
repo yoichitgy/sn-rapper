@@ -1,4 +1,7 @@
-import json
+"""
+This module is just a simple example of how to use the Uberduck API.
+"""
+
 import logging
 import os
 
