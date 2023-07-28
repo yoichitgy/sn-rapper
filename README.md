@@ -2,7 +2,7 @@
 
 Looking for a fun feature on Slack? Check out sn-rapper! It has the ability to transform any Slack message into a catchy rap song, complete with fantastic lyrics and vocal audio🎶. All you need to do is apply a `:rap:` reaction to a Slack message. Enjoy!
 
-![sn-rapper screenshot](docs/media/screenshot.png)
+![sn-rapper screenshot](./docs/media/screenshot.png)
 
 [A sample audio here.](./docs/media/rap.mp3)
 
